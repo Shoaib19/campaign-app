@@ -1,2 +1,32 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<% if get_user_type%>
+<div class="buttons">
+<%= link_to "Create Campaign",new_campaign_tab_path, class:"btn btn-outline-dark btn-lg" %>
+<%= link_to "Manage Users", users_path, class:"btn btn-outline-dark btn-lg "%>
+</div>
+<%end%>
+<h4>All Campaigns</h4>
+<table class="table table-striped table-hover"> 
+  <thead class="table-dark">
+    <tr>
+      <th>Title</th>
+      <th>Purpose</th>
+      <th>Estimated duration</th>
+      <th colspan="3" style="text-align:center">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @campaign_tabs.each do |campaign_tab| %>
+      <tr>
+        <td><%= campaign_tab.title %></td>
+        <td><%= campaign_tab.purpose %></td>
+        <td><%= campaign_tab.estimated_duration %> days</td>
+        <td><%= link_to 'Show', campaign_tab, class:"btn btn-outline-secondary btn-sm" %></td>
+        <%if which_user(campaign_tab)%>
+        <td><%= link_to 'Edit', edit_campaign_tab_path(campaign_tab), class:"btn btn-outline-warning btn-sm" %></td>
+        <td><%= link_to 'Destroy', campaign_tab, class:"btn btn-outline-danger btn-sm",method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

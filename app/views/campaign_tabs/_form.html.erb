@@ -1,0 +1,35 @@
+<%= form_for(campaign_tab) do |f| %>
+  <% if campaign_tab.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(campaign_tab.errors.count, "error") %> prohibited this campaign_tab from being saved:</h2>
+
+      <ul>
+      <% campaign_tab.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-floating mb-3">
+    <%= f.text_field :title,id:"floatingInput",class:"form-control", placeholder:"aa" %>
+    <%= f.label :title , for:"floatingInput"%>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= f.text_field :purpose,id:"floatingInput",class:"form-control", placeholder:"aa" %>
+    <%= f.label :purpose , for:"floatingInput"%>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= f.select :estimated_duration, options_for_select([["within 1 week",7],["within 1 month",30],["within 3 months",90]]), class:"form-select form-select-sm", id:"floatingInput" %>
+  </div>
+  <br>
+<div class="field form-floating mb-3">
+  <%= f.text_field :user_id , value:current_user.id, hidden:true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit class:"btn btn-primary btn-sm"%>
+  </div>
+<% end %>

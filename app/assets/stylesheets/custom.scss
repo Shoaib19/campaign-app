@@ -1,0 +1,24 @@
+.lnk{
+    color: blue !important;
+    text-decoration: none;
+}
+.comment:hover, .lnk:hover{
+    color: rgb(132, 0, 255) !important;
+    text-decoration: underline;
+    background-color: transparent;
+}
+.comment{
+    width: 30%;
+    text-align: center;
+    color: rgb(255, 72, 0) !important;
+    text-decoration: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+.txt{
+    text-decoration: none;
+}
+.buttons{
+    text-align: center;
+}

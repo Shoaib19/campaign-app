@@ -1,0 +1,65 @@
+<div class="card text-center">
+  <div class="card-header">
+    Campaign
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"> <%= @campaign_tab.title %></h5>
+    <p class="card-text"> <%= @campaign_tab.purpose %></p>
+    <%todo_for_campaign , title= find_todo(@campaign_tab)%>
+    <strong>ToDo of this Campaign</strong><br>
+    <% if current_user.id == @campaign_tab.user_id%>
+    <% if todo_for_campaign != nil %>
+     <p class="card-text"> <%= link_to todo_for_campaign.title, edit_todo_path(rec: todo_for_campaign, id: todo_for_campaign.id) , class:"lnk"%></p>
+     <%else%>
+      <p class="card-text"> </p>
+     <%end%>
+    <%else%>
+    <p class="card-text"> <%=  title %></p>
+    <%end%>
+    <strong>Topics</strong><br>
+    <% all_topics = find_topics(@campaign_tab)%>
+    <% all_topics.each do |t|%>
+    <%= link_to t.title, topic_path(id: t) , class:"lnk" %>
+    <%end%>
+    <br>
+    <br>
+    <% if current_user.user_type == "novice" && current_user.status == "qualified" %>
+    <%= link_to "Create Topic on this campaign", new_topic_path(id:@campaign_tab.id) ,class:"btn btn-warning btn-sm" %>
+    <%end%>
+    <br>
+    <br>
+    <%= link_to 'Comment', new_comment_path(item:@campaign_tab,from_model: "campaign"),class:"btn btn-warning btn-sm" %> 
+    <% if current_user.id == @campaign_tab.user_id%>
+    <% if todo_for_campaign == nil%>
+    <%= link_to "Add Todo", new_todo_path(id:@campaign_tab.id) ,class:"btn btn-warning btn-sm" %> 
+    <%end%>
+    <%= link_to "Add Tag", new_tag_path(id:@campaign_tab.id) ,class:"btn btn-warning btn-sm" %>
+    <%end%>
+    <br>
+    <strong>Tags</strong><br>
+    <% all_tags = find_tags(@campaign_tab)%>
+    <% all_tags.each do |t|%>
+    <%if current_user.id == t.user_id%>
+    <%= link_to t.name, t, method: :delete, data: { confirm: 'Are you sure want to delete this tag?' } , class:"btn btn-info" %>
+    <%else%>
+    <button class="btn btn-info"><%= t.name%></button>
+    <%end%>
+    <%end%>
+  </div>
+  <div class="card-footer text-muted">
+    <strong>Estimated duration:</strong>
+  <%= @campaign_tab.estimated_duration %> Days
+  </div>
+</div>
+<br>
+<div class="vstack gap-3">
+<strong class="buttons">Comments</strong><br>
+<% arr = get_comments(@campaign_tab)%>
+<% arr.each do |c|%>
+<%=link_to  c.title, comment_path(c), class:"comment bg-light border buttons"%>
+<br>
+<%end%>
+</div>
+<div class="buttons">
+<%= link_to 'Back', root_path, class:"btn btn-outline-secondary btn-sm " %>
+</div>

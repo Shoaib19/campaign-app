@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title"><%= @user.username %></h5>
+    
+    <h6 class="card-subtitle mb-2 text-muted"> <strong class="under">Type</strong>: <%= @user.user_type %></h6>
+    <h6 class="card-subtitle mb-2 text-muted"> <strong class="under">Status</strong>: <%= @user.status %></h6>
+    <h6 class="card-subtitle mb-2 text-muted"><strong class="under">Profession</strong>: <%= @user.profession %></h6>
+    <h6 class="card-subtitle mb-2 text-muted"> <strong class="under">Service</strong>: <%= @user.service %></h6> 
+  </div>
+</div>
+<br>
+<br>
+<%= link_to 'Edit', edit_user_path(@user), class:"btn btn-outline-dark btn-sm" %>
+<%= link_to 'Back', users_path(@users) , class:"btn btn-outline-secondary btn-sm"%> 
