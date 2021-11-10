@@ -1,5 +1,9 @@
 class CampaignTabsController < ApplicationController
 before_action :get_campaign, only:[:show, :edit, :update, :destroy ]
+    
+    def index
+    end 
+    
     def new
         @campaign_tab = CampaignTab.new
     end

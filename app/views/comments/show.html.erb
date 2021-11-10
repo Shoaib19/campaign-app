@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">
+    <strong>Title:</strong>
+  <%= @comment.title %>
+  </h5>
+    
+<%if current_user.id == @comment.user_id%>
+<%= link_to 'Edit', edit_comment_path(@comment) , class:"btn btn-outline-secondary btn-sm"%> 
+<%= link_to 'Destroy', @comment, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-outline-danger btn-sm"%> 
+<%end%>
+  </div>
+</div>
+
+<br>
+
+
+<% if item_is(@comment)%>
+<%= link_to 'Back', topic_path(@comment.commented_on_id) ,class:"btn btn-outline-dark btn-sm" %>
+<%else%>
+<%= link_to 'Back', campaign_tab_path(@comment.commented_on_id) ,class:"btn btn-outline-dark btn-sm"%>
+<%end%>

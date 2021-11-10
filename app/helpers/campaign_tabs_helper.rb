@@ -23,9 +23,9 @@ module CampaignTabsHelper
     end
 
     def find_todo(campaign_tab)
-         t = Todo.where(campaign_tab_id: campaign_tab.id).first
+         t = Todo.where(campaign_tab_id: campaign_tab.id)
          if t != nil
-            return t , t.title
+            return t.to_a
         else
             return nil 
         end

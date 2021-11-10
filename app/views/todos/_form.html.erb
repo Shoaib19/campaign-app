@@ -1,0 +1,30 @@
+<%= form_for(todo) do |f| %>
+  <% if todo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+
+      <ul>
+      <% todo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-floating mb-3">
+   <%= f.text_field :title , id:"floatingInput",class:"form-control", placeholder:"aa"%>
+    <%= f.label :title , for:"floatingInput"%>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= f.text_field :campaign_tab_id , value: @id ,  hidden:true, id:"floatingInput",class:"form-control", placeholder:"aa"%>
+  </div>
+
+  <div class="field form-floating mb-3">
+    <%= f.text_field :user_id , value: current_user.id , hidden:true, id:"floatingInput",class:"form-control", placeholder:"aa"%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit  class:"btn btn-outline-warning" %>
+  </div>
+<% end %>
