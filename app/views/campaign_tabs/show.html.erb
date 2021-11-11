@@ -5,12 +5,11 @@
   <div class="card-body">
     <h5 class="card-title"> <%= @campaign_tab.title %></h5>
     <p class="card-text"> <%= @campaign_tab.purpose %></p>
-
     <strong class="text-success">Todos of this Campaign:</strong><br>
     <%todo_for_campaign = find_todo(@campaign_tab)%>
     <%if current_user.id == @campaign_tab.user_id%>
     <%todo_for_campaign.each do |todo|%>
-    <p class="card-text"><%= link_to todo.title , edit_todo_path(id: todo.id ,rec: todo ), class:"lnk" %></p>
+    <p class="card-text"><%= link_to todo.title , edit_user_campaign_tab_todo_path(current_user.id,@campaign_tab, todo), class:"lnk" %></p>
     <%end%>
      <%else%>
      <%todo_for_campaign.each do |todo|%>
@@ -18,30 +17,29 @@
     <%end%>
     <%end%>
 
-    
     <strong class="text-success">Topics:</strong><br>
     <% all_topics = find_topics(@campaign_tab)%>
     <% all_topics.each do |t|%>
-    <%= link_to t.title, topic_path(id: t) , class:"lnk" %>
+    <%= link_to t.title, user_campaign_tab_topic_path(current_user.id,@campaign_tab, t) , class:"lnk" %>
     <%end%>
     <br>
     <br>
     <% if current_user.user_type == "novice" && current_user.status == "qualified" %>
-    <%= link_to "Create Topic on this campaign", new_topic_path(id:@campaign_tab.id) ,class:"btn btn-warning btn-sm" %>
+    <%= link_to "Create Topic on this campaign", new_user_campaign_tab_topic_path(current_user,@campaign_tab) ,class:"btn btn-warning btn-sm" %>
     <%end%>
     <br>
     <br>
-    <%= link_to 'Comment', new_comment_path(item:@campaign_tab,from_model: "campaign"),class:"btn btn-warning btn-sm" %> 
+    <%= link_to 'Comment',  new_user_campaign_tab_comment_path(current_user.id,@campaign_tab),class:"btn btn-warning btn-sm" %> 
     <% if current_user.id == @campaign_tab.user_id%>
-    <%= link_to "Add Todo", new_todo_path(id:@campaign_tab.id) ,class:"btn btn-warning btn-sm" %> 
-    <%= link_to "Add Tag", new_tag_path(id:@campaign_tab.id) ,class:"btn btn-warning btn-sm" %>
+    <%= link_to "Add Todo", new_user_campaign_tab_todo_path(current_user.id,@campaign_tab) ,class:"btn btn-warning btn-sm" %> 
+    <%= link_to "Add Tag", new_user_campaign_tab_tag_path(current_user.id,@campaign_tab) ,class:"btn btn-warning btn-sm" %>
     <%end%>
     <br>
     <strong>Tags:</strong><br>
     <% all_tags = find_tags(@campaign_tab)%>
     <% all_tags.each do |t|%>
     <%if current_user.id == t.user_id%>
-    <%= link_to t.name, t, method: :delete, data: { confirm: 'Are you sure want to delete this tag?' } , class:"badge bg-primary text-wrap" %>
+    <%= link_to t.name, [current_user,@campaign_tab,t], method: :delete, data: { confirm: 'Are you sure want to delete this tag?' } , class:"badge bg-primary text-wrap" %>
     <%else%>
     <button class="badge bg-primary text-wrap"><%= t.name%></button>
     <%end%>
@@ -57,7 +55,7 @@
 <strong class="buttons">Comments</strong><br>
 <% arr = get_comments(@campaign_tab)%>
 <% arr.each do |c|%>
-<%=link_to  c.title, comment_path(c), class:"comment bg-light border buttons"%>
+ <%=link_to  c.title, user_campaign_tab_comment_path(current_user.id,@campaign_tab, c.id), class:"comment bg-light border buttons"%>
 <br>
 <%end%>
 </div>

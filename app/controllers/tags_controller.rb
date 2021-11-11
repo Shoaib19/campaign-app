@@ -1,18 +1,18 @@
 class TagsController < ApplicationController
- before_action :get_tag, only:[:destroy]   
+    before_action :get_campaign
+    before_action :get_tag, only:[:destroy]   
     
     def index
     end
 
     def new
-        @id = params[:id]
-        @tag = Tag.new
+        @tag = @campaign.tags.new
     end
 
     def create
-        @tag = Tag.new(tag_params)
+        @tag = @campaign.tags.new(tag_params)
         if @tag.save
-            redirect_to campaign_tab_path(@tag.campaign_tab_id)
+            redirect_to user_campaign_tab_path(current_user.id,@tag.campaign_tab_id)
         else
             render 'new'
         end
@@ -20,12 +20,15 @@ class TagsController < ApplicationController
 
     def destroy
         @tag.destroy
-        redirect_to campaign_tab_path(@tag.campaign_tab_id)
+        redirect_to user_campaign_tab_path(current_user.id,@tag.campaign_tab_id)
     end
  private
+    def get_campaign
+        @campaign = CampaignTab.find(params[:campaign_tab_id])
+    end
 
     def get_tag
-     @tag = Tag.find(params[:id])
+     @tag = @campaign.tags.find(params[:id])
     end
 
     def tag_params

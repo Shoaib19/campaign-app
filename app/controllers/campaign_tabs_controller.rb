@@ -1,5 +1,5 @@
 class CampaignTabsController < ApplicationController
-before_action :get_campaign, only:[:show, :edit, :update, :destroy ]
+    before_action :get_campaign, only:[:show, :edit, :update, :destroy ]
     
     def index
     end 
@@ -11,7 +11,7 @@ before_action :get_campaign, only:[:show, :edit, :update, :destroy ]
     def create
         @campaign_tab = CampaignTab.new(campaign_tab_params)
         if @campaign_tab.save
-            redirect_to @campaign_tab
+            redirect_to user_campaign_tab_path(current_user,@campaign_tab)
         else
             render 'new'
         end

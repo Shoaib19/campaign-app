@@ -1,31 +1,29 @@
 class TodosController < ApplicationController
-before_action :get_todo, only:[:show,:edit,:update,:destroy]   
+    before_action :get_campaign
+    before_action :get_todo, only:[:show,:edit,:update,:destroy]   
     
     def index
     end    
     
     def new
-        @id = params[:id]
-        @todo = Todo.new
+        @todo = @campaign.todo.new
     end
 
     def create
-        @todo = Todo.new(todo_params)
+        @todo = @campaign.todo.new(todo_params)
         if  @todo.save
-            redirect_to  campaign_tab_path(@todo.campaign_tab_id)
+            redirect_to user_campaign_tab_path(current_user.id,@todo.campaign_tab_id)
         else
             render 'new'
         end
     end
 
     def edit
-        todo_id = params[:id]
-        @id = Todo.find(todo_id).campaign_tab_id
     end
 
     def update
         if  @todo.update(todo_params)
-            redirect_to campaign_tab_path(@todo.campaign_tab_id)
+            redirect_to user_campaign_tab_path(current_user.id,@todo.campaign_tab_id)
         else
             render 'edit'
         end
@@ -36,12 +34,16 @@ before_action :get_todo, only:[:show,:edit,:update,:destroy]
 
     def destroy
         @todo.destroy
-        redirect_to campaign_tab_path(@todo.campaign_tab_id)
+        redirect_to user_campaign_tab_path(current_user.id,@todo.campaign_tab_id)
     end
  private
 
+    def get_campaign
+        @campaign = CampaignTab.find(params[:campaign_tab_id])
+    end
+
     def get_todo
-        @todo = Todo.find(params[:id])
+        @todo = @campaign.todo.find(params[:id])
     end
 
     def todo_params

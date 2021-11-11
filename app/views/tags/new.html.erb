@@ -3,4 +3,4 @@
 <%= render 'form', tag: @tag %>
 <br>
 
-<%= link_to 'Back', campaign_tab_path(@id), class:"btn btn-outline-secondary btn-sm " %>
+<%= link_to 'Back', user_campaign_tab_path(current_user.id,@campaign), class:"btn btn-outline-secondary btn-sm " %>

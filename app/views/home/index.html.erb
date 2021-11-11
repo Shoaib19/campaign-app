@@ -1,6 +1,6 @@
 <% if get_user_type%>
 <div class="buttons">
-<%= link_to "Create Campaign",new_campaign_tab_path, class:"btn btn-outline-dark btn-lg" %>
+<%= link_to "Create Campaign",new_user_campaign_tab_path(current_user.id), class:"btn btn-outline-dark btn-lg" %>
 <%= link_to "Manage Users", users_path, class:"btn btn-outline-dark btn-lg "%>
 </div>
 <%end%>
@@ -21,10 +21,10 @@
         <td><%= campaign_tab.title %></td>
         <td><%= campaign_tab.purpose %></td>
         <td><%= campaign_tab.estimated_duration %> days</td>
-        <td><%= link_to 'Show', campaign_tab, class:"btn btn-outline-secondary btn-sm" %></td>
+        <td><%= link_to 'Show',  user_campaign_tab_path(current_user.id,campaign_tab), class:"btn btn-outline-secondary btn-sm" %></td>
         <%if which_user(campaign_tab)%>
-        <td><%= link_to 'Edit', edit_campaign_tab_path(campaign_tab), class:"btn btn-outline-warning btn-sm" %></td>
-        <td><%= link_to 'Destroy', campaign_tab, class:"btn btn-outline-danger btn-sm",method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_user_campaign_tab_path(current_user.id,campaign_tab), class:"btn btn-outline-warning btn-sm" %></td>
+        <td><%= link_to 'Destroy', [current_user, campaign_tab], class:"btn btn-outline-danger btn-sm",method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
       </tr>
     <% end %>

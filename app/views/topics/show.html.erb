@@ -6,12 +6,12 @@
     <strong>Title:</strong>
   <%= @topic.title %>
     </h5>
-<%= link_to 'Comment', new_comment_path(item:@topic,from_model: "topic"), class:"btn btn-outline-warning btn-sm " %> 
+<%= link_to 'Comment', new_user_campaign_tab_topic_comment_path(current_user.id,@campaign,@topic), class:"btn btn-outline-warning btn-sm " %> 
 <% if get_user(@topic)%>
-<%= link_to 'Edit', edit_topic_path(@topic) ,class:"btn btn-outline-secondary btn-sm " %> 
-<%= link_to 'Destroy', @topic, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger btn-sm " %>
+<%= link_to 'Edit', edit_user_campaign_tab_topic_path(current_user.id,@campaign,@topic) ,class:"btn btn-outline-secondary btn-sm " %> 
+<%= link_to 'Destroy', [current_user,@campaign,@topic], method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger btn-sm " %>
 <%end%>
-<%= link_to 'Back', campaign_tab_path(@topic.campaign_tab_id), class:"btn btn-outline-dark btn-sm " %> 
+<%= link_to 'Back', user_campaign_tab_path(current_user.id,@topic.campaign_tab_id), class:"btn btn-outline-dark btn-sm " %> 
   </div>
 </div>
 <br>
@@ -20,6 +20,6 @@
 <br><br>
 <% arr = get_comments(@topic)%>
 <% arr.each do |c|%>
-<%=link_to  c.title, comment_path(c), class:"comment bg-light border buttons"%>
+ <%=link_to  c.title,  user_campaign_tab_topic_comment_path(current_user.id,@campaign,@topic,c.id), class:"comment bg-light border buttons"%>
 <br>
 <%end%>

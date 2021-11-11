@@ -2,5 +2,5 @@
 
 <%= render 'form', campaign_tab: @campaign_tab %>
 <br>
-<%= link_to 'Show', @campaign_tab , class:"btn btn-outline-dark btn-sm"%> 
+<%= link_to 'Show', user_campaign_tab_path(current_user,@campaign_tab) , class:"btn btn-outline-dark btn-sm"%> 
 <%= link_to 'Back', root_path , class:"btn btn-outline-secondary btn-sm"%>

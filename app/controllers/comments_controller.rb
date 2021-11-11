@@ -1,32 +1,35 @@
 class CommentsController < ApplicationController
  before_action :get_comment, only:[:show, :edit, :update, :destroy]  
- 
+ before_action :get_campaign
+ before_action :get_topic
     def index
     end
-    @@record = 0
+
     def new
-    item = params[:item]
-    @model_name = params[:from_model]
-    if @model_name == "topic"
-      @rec = Topic.find(item)
-      @@record = @rec
-      @comment = @rec.comments.new
-    elsif @model_name == "campaign"
-      @rec = CampaignTab.find(item)
-      @@record = @rec
-      @comment = @rec.comments.new
+    if @topic.present?
+      @comment = @topic.comments.new
+    else
+      @comment = @campaign.comments.new
     end
     end
 
     def create
-        @comment = @@record.comments.new(comment_params)
-        @@record = 0
-        path = path_name(@comment)
+      if @topic.present?
+        @comment = @topic.comments.new(comment_params)
         if @comment.save
-            redirect_to path
-        else
-            render 'new'
-        end
+          redirect_to  user_campaign_tab_topic_path(current_user.id,@campaign, @topic)
+      else
+          render 'new'
+      end
+      else
+        @comment = @campaign.comments.new(comment_params)
+        if @comment.save
+          redirect_to user_campaign_tab_path(current_user.id,@comment.commented_on_id)
+      else
+          render 'new'
+      end
+      end
+       
     end
     
     def edit 
@@ -34,8 +37,11 @@ class CommentsController < ApplicationController
 
     def update
         if @comment.update(comment_params)
-            path = path_name(@comment)
-            redirect_to path
+          if @topic.present?
+            redirect_to user_campaign_tab_topic_comment_path(current_user.id,@campaign,@topic,@comment.id)
+          else
+            redirect_to user_campaign_tab_comment_path(current_user.id,@campaign,@comment.id)
+          end    
         else
             render 'edit'
         end
@@ -48,20 +54,25 @@ class CommentsController < ApplicationController
         c = @comment
         @comment.destroy
         if c.commented_on_type == "Topic"
-            redirect_to topic_path(c.commented_on_id)
+            redirect_to user_campaign_tab_topic_path(current_user.id,@campaign,@topic)
         elsif c.commented_on_type == "CampaignTab"
-            redirect_to campaign_tab_path(c.commented_on_id)
+            redirect_to user_campaign_tab_path(current_user.id,@campaign.id)
         end
     end
 
 private
-  def path_name(comment)
-    if comment.commented_on_type == "Topic"
-      return topic_path(@comment.commented_on_id)
-    elsif comment.commented_on_type == "CampaignTab"
-      return campaign_tab_path(@comment.commented_on_id)
+
+    def get_campaign
+      @campaign = CampaignTab.find(params[:campaign_tab_id])
     end
-  end
+
+    def get_topic
+      if request.url.to_s.include? "topics"
+      @topic = Topic.find(params[:topic_id])
+      end
+    end
+
+
 
   def get_comment
     @comment = Comment.find(params[:id])

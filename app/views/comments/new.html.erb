@@ -2,8 +2,8 @@
 
 <%= render 'form', comment: @comment %>
 <br>
-<% if item_is(@comment)%>
-<%= link_to 'Back', topic_path(@comment.commented_on_id) , class:"btn btn-outline-secondary"%>
+<% if commented_on(@comment)%>
+<%= link_to 'Back',  user_campaign_tab_topic_path(current_user.id,@campaign,@comment.commented_on_id) , class:"btn btn-outline-secondary"%>
 <% else%>
-<%= link_to 'Back', campaign_tab_path(@comment.commented_on_id), class:"btn btn-outline-secondary" %>
+<%= link_to 'Back', user_campaign_tab_path(current_user.id,@comment.commented_on_id), class:"btn btn-outline-secondary" %>
 <%end%>

@@ -8,8 +8,13 @@
   </h5>
     
 <%if current_user.id == @comment.user_id%>
-<%= link_to 'Edit', edit_comment_path(@comment) , class:"btn btn-outline-secondary btn-sm"%> 
-<%= link_to 'Destroy', @comment, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-outline-danger btn-sm"%> 
+<% if @topic.present?%>
+<%= link_to 'Edit', edit_user_campaign_tab_topic_comment_path(current_user.id,@campaign,@topic,@comment.id) , class:"btn btn-outline-secondary btn-sm"%> 
+<%= link_to 'Destroy', [current_user,@campaign,@topic,@comment], method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-outline-danger btn-sm"%> 
+<%else%>
+<%= link_to 'Edit', edit_user_campaign_tab_comment_path(current_user.id,@campaign,@comment.id) , class:"btn btn-outline-secondary btn-sm"%> 
+<%= link_to 'Destroy', [current_user,@campaign,@comment], method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-outline-danger btn-sm"%> 
+<%end%>
 <%end%>
   </div>
 </div>
@@ -17,8 +22,8 @@
 <br>
 
 
-<% if item_is(@comment)%>
-<%= link_to 'Back', topic_path(@comment.commented_on_id) ,class:"btn btn-outline-dark btn-sm" %>
+<% if commented_on(@comment)%>
+<%= link_to 'Back', user_campaign_tab_topic_path(current_user.id,@campaign,@comment.commented_on_id) ,class:"btn btn-outline-dark btn-sm" %>
 <%else%>
-<%= link_to 'Back', campaign_tab_path(@comment.commented_on_id) ,class:"btn btn-outline-dark btn-sm"%>
+<%= link_to 'Back', user_campaign_tab_path(current_user.id,@comment.commented_on_id) ,class:"btn btn-outline-dark btn-sm"%>
 <%end%>
